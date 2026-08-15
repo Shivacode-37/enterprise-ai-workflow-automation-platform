@@ -13,9 +13,6 @@ if TYPE_CHECKING:
 
 class WorkflowRun(Base):
     __tablename__ = "workflow_runs"
-    workflow_runs: Mapped[list["WorkflowRun"]] = relationship(
-    back_populates="request",
-)
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
 
@@ -55,3 +52,6 @@ class WorkflowRun(Base):
     request: Mapped["AssetRequest"] = relationship(
         back_populates="workflow_runs",
     )
+
+
+
