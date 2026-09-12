@@ -25,6 +25,10 @@ class AssetUpdate(BaseModel):
 class AssetResponse(AssetBase):
     id: int
     status: str
+    assigned_to : int | None
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+class AssetAssignment(BaseModel):
+    user_id: int = Field(..., gt=0)

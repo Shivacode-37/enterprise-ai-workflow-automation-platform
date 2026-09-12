@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, String
+from sqlalchemy import DateTime, String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database.base import Base
@@ -25,9 +25,16 @@ class Asset(Base):
     )
 
     location: Mapped[str | None] = mapped_column(
-        String(100),
-        nullable=True,
-    )
+    String(100),
+    nullable=True,
+)
+
+    assigned_to: Mapped[int | None] = mapped_column(
+    ForeignKey("users.id"),
+    nullable=True,
+    index=True,
+)
+
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

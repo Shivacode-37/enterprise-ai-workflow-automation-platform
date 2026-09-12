@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from app.database.connection import get_db
 from app.models.workflow_run import WorkflowRun
 from app.schemas.workflow_run import WorkflowRunResponse, WorkflowRunUpdate
-
+from app.services.workflow_service import execute_workflow
 
 router = APIRouter(
     prefix="/workflow-runs",
@@ -104,3 +104,30 @@ def update_workflow_run(
     db.refresh(workflow_run)
 
     return workflow_run
+@router.post("/{workflow_id}/execute", response_model=WorkflowRunResponse)
+def execute_workflow_run(
+    workflow_id: str,
+    db: Session = Depends(get_db),
+):
+    workflow_run = (
+        db.query(WorkflowRun)
+        .filter(WorkflowRun.workflow_id == workflow_id)
+        .first()
+    )
+
+    if workflow_run is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Workflow run not found",
+        )
+
+    if workflow_run.status != "RUNNING":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Workflow can only be executed from RUNNING state",
+        )
+
+    return execute_workflow(
+        db,
+        workflow_run,
+    )

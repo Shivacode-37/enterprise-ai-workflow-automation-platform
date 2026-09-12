@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
 from app.models.assets import Asset
-from app.schemas.asset import AssetCreate, AssetResponse, AssetUpdate
+from app.schemas.asset import AssetCreate, AssetResponse, AssetUpdate, AssetAssignment
+from app.services.inventory_service import assign_asset
 
 
 router = APIRouter(
@@ -106,6 +107,37 @@ def update_asset(
     return asset
 
 
+@router.patch("/{asset_id}/assign", response_model=AssetResponse)
+def assign_asset_to_user(
+    asset_id: int,
+    assignment_data: AssetAssignment,
+    db: Session = Depends(get_db),
+):
+    asset = (
+        db.query(Asset)
+        .filter(Asset.id == asset_id)
+        .first()
+    )
+
+    if asset is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Asset not found",
+        )
+
+    if asset.status != "AVAILABLE" or asset.assigned_to is not None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Asset is not available for assignment",
+        )
+
+    updated_asset = assign_asset(
+        db,
+        asset,
+        assignment_data.user_id,
+    )
+
+    return updated_asset
 # DELETE /assets/{asset_id}
 @router.delete(
     "/{asset_id}",
