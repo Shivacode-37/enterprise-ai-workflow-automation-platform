@@ -55,3 +55,4 @@ def execute_workflow(
     db.refresh(workflow_run)
 
     return workflow_run
+

@@ -137,6 +137,9 @@ def assign_asset_to_user(
         assignment_data.user_id,
     )
 
+    db.commit()
+    db.refresh(updated_asset)
+
     return updated_asset
 # DELETE /assets/{asset_id}
 @router.delete(
