@@ -1,0 +1,38 @@
+Enterprise IT Asset Allocation Policy
+
+Laptop Policy:
+Employees may request a laptop when required for their assigned role.
+Engineering and technical roles may request laptops for development work.
+Laptop allocation is subject to available inventory and approval.
+
+Monitor Policy:
+Employees may request an external monitor for workstation setup or productivity.
+Monitor allocation is subject to available inventory and approval.
+
+Keyboard Policy:
+Employees may request a keyboard when required for workstation setup or replacement.
+Keyboard allocation is subject to available inventory and approval.
+
+Mouse Policy:
+Employees may request a mouse when required for workstation setup or replacement.
+Mouse allocation is subject to available inventory and approval.
+
+Headset Policy:
+Employees may request a headset for communication, meetings, or remote work.
+Headset allocation is subject to available inventory and approval.
+
+Priority Policy:
+LOW requests are non-urgent.
+NORMAL requests follow the standard processing workflow.
+HIGH requests require expedited processing.
+URGENT requests require the highest processing priority.
+
+Approval Policy:
+Asset requests require approval before inventory allocation.
+The workflow must not allocate an asset before approval is granted.
+
+Inventory Policy:
+An asset can only be assigned when its status is AVAILABLE and it is not currently assigned to another user.
+
+Failure Policy:
+If no suitable asset is available, the workflow must fail gracefully and record an audit event.
