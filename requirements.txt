@@ -19,3 +19,6 @@ celery
 python-multipart
 httpx
 python-dotenv
+langchain-community
+langchain-text-splitters
+chromadb

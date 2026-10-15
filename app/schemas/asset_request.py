@@ -1,9 +1,7 @@
 from datetime import datetime
 from enum import Enum
-
-
-from amqp import PreconditionFailed
 from pydantic import BaseModel, ConfigDict, Field
+
 
 class PriorityEnum(str, Enum):
     LOW = "LOW"

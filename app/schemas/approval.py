@@ -10,9 +10,14 @@ class ApprovalStatusEnum(str, Enum):
     REJECTED = "REJECTED"
 
 
+
 class ApprovalCreate(BaseModel):
     request_id: int = Field(..., gt=0)
     approver_id: int = Field(..., gt=0)
+    comments: str | None = Field(
+        default=None,
+        max_length=1000,
+    )
 
 
 class ApprovalDecision(BaseModel):

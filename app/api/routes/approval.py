@@ -12,7 +12,7 @@ from app.schemas.approval import (
 )
 from app.models.workflow_run import WorkflowRun
 from uuid import uuid4
-
+from app.services.workflow_service import execute_workflow
 router = APIRouter(
     prefix="/approvals",
     tags=["Approvals"],
@@ -57,6 +57,7 @@ def create_approval(
     approval = Approval(
         request_id=approval_data.request_id,
         approver_id=approval_data.approver_id,
+        comments=approval_data.comments,
     )
 
     existing_approval = (
@@ -178,9 +179,13 @@ def decide_approval(
         status="RUNNING",
         current_step="WORKFLOW_STARTED",
     )
-        db.add(workflow_run)
 
-    
+        db.add(workflow_run)
+        db.flush()
+
+    # Execute the workflow immediately after approval
+        execute_workflow(db, workflow_run)
+
 
     db.commit()
     db.refresh(approval)
