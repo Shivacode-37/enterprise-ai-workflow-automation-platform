@@ -12,6 +12,22 @@ routes it for approval, and records workflow outcomes and audit events.
 > End-to-end verification and deployment are the next steps. Review the
 > current code and environment configuration before deploying.
 
+## 🚀 Live Demo
+
+* **Frontend Dashboard:**[Open Live Dashboard](https://enterprise-ai-workflow-automation-platform-j5xpjnlz9wvm2vkpaf6.streamlit.app/)
+* **Backend API:**[Open Live API](https://enterprise-ai-workflow-automation-h403.onrender.com/)
+* **Swagger API Documentation:**[Explore API Docs](https://enterprise-ai-workflow-automation-h403.onrender.com/docs)
+
+### ✨ Try These Features
+
+* **Asset Inventory:** Browse and monitor IT asset availability.
+* **AI-Powered Requests:** Submit natural-language asset requests and receive AI-generated analysis.
+* **Approval Management:** Track pending approvals and request statuses.
+* **Workflow Automation:** Execute workflows after approval.
+* **REST API:** Explore and test backend endpoints through Swagger UI.
+
+> **Note:** The backend is hosted on Render and may take some time to respond after periods of inactivity. The dashboard uses a hosted PostgreSQL database through Neon.
+
 ## Highlights
 
 * AI-assisted asset requests from natural-language descriptions.
