@@ -32,202 +32,204 @@ dashboard_theme = st.sidebar.radio(
 )
 
 
-
+# Centralized dashboard theme
 if dashboard_theme == "Dark":
-    theme_css = """
-    <style>
-    .stApp {
-        background-color: #0B1220;
-        color: #E5EAF3;
+    theme = {
+        "bg": "#0B1220",
+        "sidebar": "#101A2B",
+        "surface": "#151F30",
+        "surface_alt": "#1B2940",
+        "text": "#F1F5F9",
+        "muted": "#B6C3D6",
+        "border": "#40516B",
+        "input": "#111C2E",
+        "placeholder": "#A8B6CC",
+        "primary": "#60A5FA",
+        "hover": "#243650",
     }
-
-    [data-testid="stSidebar"] {
-        background-color: #111A2A;
-        border-right: 1px solid #263349;
-    }
-
-    [data-testid="stSidebar"] * {
-        color: #E5EAF3;
-    }
-
-    .block-container {
-        max-width: 1500px;
-        padding-top: 2rem;
-        padding-bottom: 3rem;
-    }
-
-    .stApp h1, .stApp h2, .stApp h3 {
-        color: #F1F5F9 !important;
-    }
-
-    .stApp p, .stApp li {
-        color: #CBD5E1;
-    }
-
-    [data-testid="stMetric"] {
-        background-color: #151F30;
-        border: 1px solid #2B3A50;
-        border-radius: 14px;
-        padding: 20px;
-    }
-
-    [data-testid="stMetricLabel"],
-    [data-testid="stMetricLabel"] *,
-    [data-testid="stMetricValue"],
-    [data-testid="stMetricValue"] * {
-        color: #E5EAF3 !important;
-    }
-
-    .stButton > button {
-        border-radius: 9px;
-        min-height: 40px;
-        font-weight: 600;
-    }
-
-    .stButton > button[kind="primary"] {
-        background-color: #2563EB;
-        color: #FFFFFF !important;
-        border: 1px solid #3B82F6;
-    }
-
-    .stTextInput input,
-    .stTextArea textarea,
-    .stNumberInput input {
-        background-color: #151F30;
-        color: #F1F5F9 !important;
-        border-radius: 8px;
-    }
-
-    [data-testid="stDataFrame"],
-    [data-testid="stTable"],
-    [data-testid="stVegaLiteChart"],
-    [data-testid="stArrowVegaLiteChart"] {
-        border: 1px solid #2B3A50;
-        border-radius: 12px;
-    }
-
-    [data-testid="stCaptionContainer"],
-    [data-testid="stCaptionContainer"] p {
-        color: #A9B8CC !important;
-    }
-
-    hr {
-        border-color: #2B3A50;
-    }
-    </style>
-    """
-
 else:
-    theme_css = """
-    <style>
-    .stApp {
-        background-color: #F3F6FC;
-        color: #172B4D;
+    theme = {
+        "bg": "#F3F6FC",
+        "sidebar": "#FFFFFF",
+        "surface": "#FFFFFF",
+        "surface_alt": "#EDF2F9",
+        "text": "#172B4D",
+        "muted": "#526581",
+        "border": "#C5D0DF",
+        "input": "#FFFFFF",
+        "placeholder": "#64748B",
+        "primary": "#2563EB",
+        "hover": "#E7EEF9",
     }
 
-    .block-container {
-        max-width: 1500px;
-        padding-top: 2rem;
-        padding-bottom: 3rem;
-    }
+theme_css = f"""
+<style>
+/* ===== Application backgrounds ===== */
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {{
+    background-color: {theme["bg"]} !important;
+    color: {theme["text"]} !important;
+}}
 
-    .stApp h1, .stApp h2, .stApp h3 {
-        color: #172B4D !important;
-    }
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] > div {{
+    background-color: {theme["sidebar"]} !important;
+    color: {theme["text"]} !important;
+}}
 
-    .stApp p, .stApp li {
-        color: #334155;
-    }
+[data-testid="stHeader"] {{
+    background-color: {theme["bg"]} !important;
+}}
 
-    [data-testid="stSidebar"] {
-        background-color: #FFFFFF;
-        border-right: 1px solid #E1E8F0;
-    }
+/* ===== All standard text ===== */
+.stApp,
+.stApp p,
+.stApp label,
+.stApp span,
+.stApp li,
+.stApp .stMarkdown,
+.stApp [data-testid="stCaptionContainer"],
+.stApp [data-testid="stMetricLabel"],
+.stApp [data-testid="stMetricValue"] {{
+    color: {theme["text"]};
+}}
 
-    [data-testid="stSidebar"] * {
-        color: #24344D;
-    }
+.stApp [data-testid="stCaptionContainer"] {{
+    color: {theme["muted"]} !important;
+}}
 
-    [data-testid="stMetric"] {
-        background-color: #FFFFFF;
-        border: 1px solid #DCE5F0;
-        border-radius: 14px;
-        padding: 20px;
-        box-shadow: 0 3px 10px rgba(30, 50, 80, 0.04);
-    }
+/* ===== Text inputs, text areas, number inputs ===== */
+.stApp input,
+.stApp textarea,
+.stApp [data-baseweb="input"] > div,
+.stApp [data-baseweb="textarea"] > div {{
+    background-color: {theme["input"]} !important;
+    color: {theme["text"]} !important;
+    -webkit-text-fill-color: {theme["text"]} !important;
+    border-color: {theme["border"]} !important;
+    border-radius: 8px !important;
+}}
 
-    [data-testid="stMetricLabel"],
-    [data-testid="stMetricLabel"] *,
-    [data-testid="stMetricValue"],
-    [data-testid="stMetricValue"] * {
-        color: #172B4D !important;
-    }
+.stApp input::placeholder,
+.stApp textarea::placeholder {{
+    color: {theme["placeholder"]} !important;
+    -webkit-text-fill-color: {theme["placeholder"]} !important;
+    opacity: 1 !important;
+}}
 
-    .stButton > button {
-        border: 1px solid #CBD5E1;
-        border-radius: 9px;
-        color: #24344D;
-        background-color: #FFFFFF;
-        min-height: 40px;
-        font-weight: 600;
-    }
+.stApp input:focus,
+.stApp textarea:focus {{
+    border-color: {theme["primary"]} !important;
+    box-shadow: 0 0 0 1px {theme["primary"]} !important;
+}}
 
-    .stButton > button[kind="primary"] {
-        background-color: #2563EB;
-        border-color: #2563EB;
-        color: #FFFFFF !important;
-    }
+/* ===== Select boxes and multi-selects ===== */
+.stApp [data-baseweb="select"] > div {{
+    background-color: {theme["input"]} !important;
+    color: {theme["text"]} !important;
+    border-color: {theme["border"]} !important;
+}}
 
-    .stTextInput input,
-    .stTextArea textarea,
-    .stNumberInput input,
-    .stDateInput input {
-        background-color: #FFFFFF;
-        color: #172B4D !important;
-        border: 1px solid #CBD5E1;
-        border-radius: 8px;
-    }
+.stApp [data-baseweb="select"] input,
+.stApp [data-baseweb="select"] span {{
+    color: {theme["text"]} !important;
+    -webkit-text-fill-color: {theme["text"]} !important;
+}}
 
-    .stTextInput label,
-    .stTextArea label,
-    .stSelectbox label,
-    .stNumberInput label {
-        color: #334155 !important;
-    }
+.stApp [data-baseweb="select"] svg {{
+    fill: {theme["text"]} !important;
+}}
 
-    [data-baseweb="select"] > div {
-        background-color: #FFFFFF;
-        color: #172B4D;
-        border-color: #CBD5E1;
-    }
+/* Dropdown popup and options */
+[data-baseweb="popover"],
+[data-baseweb="menu"],
+ul[role="listbox"] {{
+    background-color: {theme["surface"]} !important;
+    color: {theme["text"]} !important;
+    border: 1px solid {theme["border"]} !important;
+}}
 
-    [data-testid="stDataFrame"],
-    [data-testid="stTable"],
-    [data-testid="stVegaLiteChart"],
-    [data-testid="stArrowVegaLiteChart"] {
-        background-color: #FFFFFF;
-        border: 1px solid #DCE5F0;
-        border-radius: 12px;
-    }
+li[role="option"],
+[data-baseweb="menu"] li {{
+    background-color: {theme["surface"]} !important;
+    color: {theme["text"]} !important;
+}}
 
-    [data-testid="stCaptionContainer"],
-    [data-testid="stCaptionContainer"] p {
-        color: #64748B !important;
-    }
+li[role="option"]:hover,
+[data-baseweb="menu"] li:hover {{
+    background-color: {theme["hover"]} !important;
+    color: {theme["text"]} !important;
+}}
 
-    [data-testid="stExpander"] {
-        background-color: #FFFFFF;
-        border: 1px solid #DCE5F0;
-        border-radius: 10px;
-    }
+/* ===== Buttons ===== */
+.stApp [data-testid="stButton"] button {{
+    background-color: {theme["surface"]} !important;
+    color: {theme["text"]} !important;
+    border: 1px solid {theme["border"]} !important;
+    border-radius: 8px !important;
+}}
 
-    hr {
-        border-color: #E1E8F0;
-    }
-    </style>
-    """
+.stApp [data-testid="stButton"] button:hover {{
+    border-color: {theme["primary"]} !important;
+    color: {theme["primary"]} !important;
+}}
+
+.stApp [data-testid="stButton"] button[kind="primary"] {{
+    background-color: {theme["primary"]} !important;
+    color: #FFFFFF !important;
+    border-color: {theme["primary"]} !important;
+}}
+
+/* ===== Cards, containers and visible separators ===== */
+.stApp [data-testid="stVerticalBlockBorderWrapper"],
+.stApp [data-testid="stExpander"],
+.stApp [data-testid="stMetric"] {{
+    background-color: {theme["surface"]} !important;
+    border-color: {theme["border"]} !important;
+    border-radius: 10px !important;
+}}
+
+.stApp hr {{
+    border-color: {theme["border"]} !important;
+}}
+
+/* ===== Tables and dataframe containers ===== */
+.stApp [data-testid="stDataFrame"],
+.stApp [data-testid="stTable"] {{
+    border: 1px solid {theme["border"]} !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+}}
+
+/* ===== Radio buttons, checkboxes and sliders ===== */
+.stApp [data-testid="stRadio"],
+.stApp [data-testid="stCheckbox"],
+.stApp [data-testid="stSelectbox"],
+.stApp [data-testid="stMultiSelect"] {{
+    color: {theme["text"]} !important;
+}}
+
+/* ===== Tabs and expanders ===== */
+.stApp [data-testid="stTabs"] button,
+.stApp [data-testid="stExpander"] summary {{
+    color: {theme["text"]} !important;
+}}
+
+.stApp [data-testid="stExpander"] {{
+    border: 1px solid {theme["border"]} !important;
+}}
+
+/* ===== Alerts and help text remain readable ===== */
+.stApp [data-testid="stAlert"] {{
+    border-radius: 8px !important;
+}}
+</style>
+"""
 
 st.markdown(theme_css, unsafe_allow_html=True)
+
 
 
 
