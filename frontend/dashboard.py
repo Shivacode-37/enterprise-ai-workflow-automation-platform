@@ -451,27 +451,35 @@ page = st.sidebar.radio(
 
 )
 
-def get_api_data(endpoint: str):
+
+def get_api_data(endpoint, params=None):
+    """Fetch API data while allowing time for Render cold starts."""
+    url = f"{API_BASE_URL.rstrip('/')}/{endpoint.lstrip('/')}"
 
     try:
-
         response = requests.get(
-
-            f"{API_BASE_URL}{endpoint}",
-
-            timeout=10,
-
+            url,
+            params=params,
+            timeout=(10, 90),
         )
-
         response.raise_for_status()
-
         return response.json()
 
-    except requests.RequestException as exc:
-
-        st.error(f"Unable to connect to the backend: {exc}")
-
+    except requests.Timeout:
+        st.warning(
+            "The backend is taking longer than expected to start. "
+            "Please wait a moment and click Refresh dashboard to retry."
+        )
         return None
+
+    except requests.RequestException as exc:
+        st.error(f"Unable to load data from the backend: {exc}")
+        return None
+
+    except ValueError:
+        st.error("The backend returned an invalid JSON response.")
+        return None
+
 
 if page == "Overview":
 
@@ -815,7 +823,7 @@ elif page == "Create AI Request":
 
             f"{API_BASE_URL}/users/",
 
-            timeout=10,
+            timeout=(10,90)
 
         )
 
